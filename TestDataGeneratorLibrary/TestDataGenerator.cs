@@ -4,48 +4,65 @@ using System.Text;
 
 namespace TestDataGeneratorLibrary
 {
-    public class TestDataGenerator : Person
+    public class TestDataGenerator
     {
-        public void GetRandomStringFromArray()
+ 
+        public static string GetRandomStringFromArray(string[] array)
         {
-            
-            GenerateRandomPerson();
+            int index = RandomInt(0, array.Length);
+            return array[index];
 
-            static void GenerateRandomPerson()
-            {
-               
-                Person person = new Person();
-                Random random = new Random();
-                
-                int index = random.Next(firstNameMales.Length);
-                _ = random.Next(lastNames.Length);
-                _ = random.Next(firstNameFemales.Length);
-                person.firstName = firstNameMales[index];
-                person.lastName = lastNames[index];
-                person.age = RandomInt();
-                Console.WriteLine();
-                Console.WriteLine($"Randomly selected person is {person.firstName} {person.lastName} {person.age}years old, person is: {RandomSex()}");
-            }
-
-            static int RandomInt()
-            {
-                int min = 1;
-                int max = 99;
-                Random random = new Random();
-                int randomAge = random.Next(min, max);
-                return randomAge;
-            }
-
-            static Sex RandomSex()
-            {
-                Array sex = Enum.GetValues(typeof(Sex));
-                Random random = new Random();
-                Sex randomSex = (Sex)sex.GetValue(random.Next(sex.Length));
-                return randomSex;
-            }
         }
 
-       
-      
+        public static T GetRandomFromIList<T>(IList<T> list)
+        {
+            int index = RandomInt(0, list.Count);
+            return list[index];
+        }
+
+        public static Person GenerateRandomPerson(Person.Sex sex = (Person.Sex)(-1),
+            string firstName = null, string lastName = null)
+        {
+            int age = RandomInt(0, 100);
+
+            if (sex == (Person.Sex)(-1))
+            {
+                sex = RandomSex();
+            }
+
+            if (firstName == null)
+            {
+                if (sex == Person.Sex.Male)
+                {
+                    firstName = GetRandomStringFromArray(Person.firstNameMales);
+                }
+                else
+                {
+                    firstName = GetRandomStringFromArray(Person.firstNameFemales);
+                }
+            }
+
+            if (lastName == null)
+            {
+                lastName = GetRandomStringFromArray(Person.lastNames);
+            }
+
+            return new Person(firstName, lastName, age, sex);
+        }
+
+   
+        public static int RandomInt(int min, int max)
+        {
+            Random rand = new Random();
+            return rand.Next(min, max);
+        }
+
+        public static Person.Sex RandomSex()
+        {
+            return (Person.Sex)RandomInt(1, 2);
+        }
+
+
+
     }
 }
