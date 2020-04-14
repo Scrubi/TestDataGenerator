@@ -9,10 +9,10 @@ namespace TestDataGeneratorLibrary
     {
        
      
-        public enum Sex 
+        public enum Gender
         {
-            Male = 1,
-            Female = 2
+            Male = 0,
+            Female
         }
 
         public static string[] firstNameMales = { "Paul", "Jack", "Grant", "Steve", "Michael", "Scott", "Colin", "Duncan" };
@@ -25,19 +25,19 @@ namespace TestDataGeneratorLibrary
 
         public int Age { get; set; }
 
-        public Sex sex { get; set; }
+        public Gender gender { get; set; }
 
-        public Person(string first, string last, int age, Sex sex)
+        public Person(string first, string last, int age, Gender gender)
         {
             FirstName = first;
             LastName = last;
             Age = age;
-            this.sex = sex;
+            this.gender = gender;
         }
 
         public override string ToString()
         {
-            return $"{FirstName} {LastName}, {Age}, {sex}";
+            return $"{FirstName} {LastName}, {Age}, {gender}";
         }
     }
 }

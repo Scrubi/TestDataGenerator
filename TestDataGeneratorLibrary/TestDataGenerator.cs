@@ -6,63 +6,65 @@ namespace TestDataGeneratorLibrary
 {
     public class TestDataGenerator
     {
- 
-        public static string GetRandomStringFromArray(string[] array)
-        {
-            int index = RandomInt(0, array.Length);
-            return array[index];
 
-        }
-
-        public static T GetRandomFromIList<T>(IList<T> list)
-        {
-            int index = RandomInt(0, list.Count);
-            return list[index];
-        }
-
-        public static Person GenerateRandomPerson(Person.Sex sex = (Person.Sex)(-1),
+        public static Person GenerateRandomPerson(Person.Gender gender = (Person.Gender)(-1),
             string firstName = null, string lastName = null)
         {
-            int age = RandomInt(0, 100);
+            int age = RandomInt(1, 100);
 
-            if (sex == (Person.Sex)(-1))
+            if (gender == (Person.Gender)(-1))
             {
-                sex = RandomSex();
+                gender = RandomGender();
             }
 
             if (firstName == null)
             {
-                if (sex == Person.Sex.Male)
+                if (gender == Person.Gender.Male)
                 {
-                    firstName = GetRandomStringFromArray(Person.firstNameMales);
+                    firstName = RandomArrayString(Person.firstNameMales);
                 }
                 else
                 {
-                    firstName = GetRandomStringFromArray(Person.firstNameFemales);
+                    firstName = RandomArrayString(Person.firstNameFemales);
                 }
             }
 
             if (lastName == null)
             {
-                lastName = GetRandomStringFromArray(Person.lastNames);
+                lastName = RandomArrayString(Person.lastNames);
             }
 
-            return new Person(firstName, lastName, age, sex);
+            return new Person(firstName, lastName, age, gender);
         }
 
-   
         public static int RandomInt(int min, int max)
         {
             Random rand = new Random();
             return rand.Next(min, max);
         }
 
-        public static Person.Sex RandomSex()
+        public static Person.Gender RandomGender()
         {
-            return (Person.Sex)RandomInt(1, 2);
+            return (Person.Gender)RandomInt(0, 2);
+        }
+        public static string RandomArrayString(string[] array)
+        {
+            int index = RandomInt(0, array.Length);
+            return array[index];
+
+        }
+        public static T RandomIList<T>(IList<T> list)
+        {
+            int index = RandomInt(0, list.Count);
+            return list[index];
         }
 
-
+        static public void InputPerson(string first,
+               string last, Person.Gender gender, int age = 20)
+        {
+            Console.WriteLine($"{first} {last}, {age}, {gender}");
+          
+        }
 
     }
 }
