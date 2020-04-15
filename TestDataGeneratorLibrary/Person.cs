@@ -27,6 +27,10 @@ namespace TestDataGeneratorLibrary
 
         public Gender gender { get; set; }
 
+        public Person()
+        {
+
+        }
         public Person(string first, string last, int age, Gender gender)
         {
             FirstName = first;
